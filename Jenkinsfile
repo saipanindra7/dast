@@ -13,7 +13,6 @@ pipeline {
     }
     stage ("Docker run Dastardly from Burp Suite Scan") {
       steps {
-        cleanWs()
         sh '''
           docker run --rm --user $(id -u) -v ${WORKSPACE}:${WORKSPACE}:rw \
           -e DASTARDLY_TARGET_URL=${DASTARDLY_TARGET_URL} \
