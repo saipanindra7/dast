@@ -9,9 +9,14 @@ pipeline {
         stage("Docker Pull Dastardly from Burp Suite container image") {
             steps {
                 script {
+                    def dockerPullCmd = "docker pull ${IMAGE_WITH_TAG}"
+
                     // Use "bat" on Windows, "sh" on Unix-like systems
-                    bat(script: 'docker pull ${IMAGE_WITH_TAG}', label: 'windows')
-                    sh(script: 'docker pull ${IMAGE_WITH_TAG}', label: 'unix')
+                    if (isUnix()) {
+                        sh script: dockerPullCmd, label: 'unix'
+                    } else {
+                        bat script: dockerPullCmd, label: 'windows'
+                    }
                 }
             }
         }
